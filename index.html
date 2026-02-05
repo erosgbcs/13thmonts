@@ -111,33 +111,195 @@
     .lightbox-nav button{background:rgba(255,255,255,0.2);border:none;color:white;width:50px;height:50px;border-radius:50%;font-size:22px;cursor:pointer;transition:all 0.3s;}
     .lightbox-nav button:hover{background:rgba(255,255,255,0.3);transform:scale(1.1);}
 
-    /* ENVELOPE PAGE WITH IMPROVED LETTER */
-    #envelope-page{justify-content:center;}
-    .scene{width:350px;height:280px;perspective:1000px;margin-bottom:40px;}
-    .envelope{width:100%;height:100%;position:relative;transform-style:preserve-3d;cursor:pointer;
-      transition:transform 700ms cubic-bezier(.2,.9,.25,1);display:flex;align-items:center;justify-content:center;}
-    .body{position:absolute;inset:0;border-radius:12px;background:linear-gradient(135deg,var(--env) 0%,var(--env-dark) 100%);box-shadow:0 15px 35px rgba(0,0,0,.15);transform:translateZ(-1px);overflow:hidden;}
-    .flap{position:absolute;left:0;right:0;top:0;height:60%;background:linear-gradient(180deg,var(--env-dark),var(--env));transform-origin:top center;transform:rotateX(0deg);
-      border-bottom:1px solid rgba(0,0,0,.06);transition:transform 800ms cubic-bezier(.2,.9,.25,1);clip-path:polygon(0 0,100% 0,50% 100%);}
-    .seal{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 30% 25%, #ffd0da, var(--env-dark));
-      display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(227,79,107,.35),inset 0 -6px 12px rgba(0,0,0,.08);font-weight:700;color:white;font-size:26px;letter-spacing:1px;z-index:2;transition:all 0.5s;}
-    .envelope.open .seal{transform:translate(-50%, -50%) scale(0.8);opacity:0.7;}
+    /* ENVELOPE PAGE WITH MULTIPLE LETTERS - MADE BIGGER */
+    #envelope-page{justify-content:center;padding-top:60px;padding-bottom:60px;overflow-y:auto;}
     
-    .letter{position:absolute;left:12px;right:12px;top:18px;bottom:12px;background:var(--paper);border-radius:8px;padding:25px 22px;
-      transform-origin:top center;transform:translateY(22px) translateZ(1px);box-shadow:0 8px 25px rgba(0,0,0,.08), inset 0 0 8px rgba(0,0,0,0.03);
-      opacity:0;transition:transform 800ms cubic-bezier(.2,.9,.25,1),opacity 400ms ease;pointer-events:none;overflow-y:auto;max-height:calc(100% - 30px);}
+    /* ENVELOPE CONTAINER - BIGGER SIZE */
+    .envelope-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1400px;
+      margin-bottom: 40px;
+    }
     
-    .envelope.open .flap{transform:rotateX(-180deg)}
-    .envelope.open .letter{transform:translateY(-18px) translateZ(40px);opacity:1;pointer-events:auto;}
+    .scene{
+      width:420px; /* Made bigger from 350px */
+      height:350px; /* Made bigger from 280px */
+      perspective:1000px;
+    }
+    
+    .envelope{
+      width:100%;
+      height:100%;
+      position:relative;
+      transform-style:preserve-3d;
+      cursor:pointer;
+      transition:transform 700ms cubic-bezier(.2,.9,.25,1);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    
+    .body{
+      position:absolute;
+      inset:0;
+      border-radius:16px; /* Slightly bigger radius */
+      background:linear-gradient(135deg,var(--env) 0%,var(--env-dark) 100%);
+      box-shadow:0 20px 40px rgba(0,0,0,.2); /* Enhanced shadow */
+      transform:translateZ(-1px);
+      overflow:hidden;
+    }
+    
+    .flap{
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:60%;
+      background:linear-gradient(180deg,var(--env-dark),var(--env));
+      transform-origin:top center;
+      transform:rotateX(0deg);
+      border-bottom:1px solid rgba(0,0,0,.06);
+      transition:transform 800ms cubic-bezier(.2,.9,.25,1);
+      clip-path:polygon(0 0,100% 0,50% 100%);
+    }
+    
+    .seal{
+      position:absolute;
+      left:50%;
+      top:38%;
+      transform:translate(-50%,-50%);
+      width:80px; /* Made bigger from 60px */
+      height:80px; /* Made bigger from 60px */
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 25%, #ffd0da, var(--env-dark));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 8px 25px rgba(227,79,107,.4),inset 0 -8px 15px rgba(0,0,0,.08);
+      font-weight:700;
+      color:white;
+      font-size:32px; /* Made bigger from 26px */
+      letter-spacing:1px;
+      z-index:2;
+      transition:all 0.5s;
+    }
+    
+    .envelope.open .seal{
+      transform:translate(-50%, -50%) scale(0.8);
+      opacity:0.7;
+    }
+    
+    .letter{
+      position:absolute;
+      left:15px; /* Adjusted for bigger size */
+      right:15px; /* Adjusted for bigger size */
+      top:20px; /* Adjusted for bigger size */
+      bottom:15px; /* Adjusted for bigger size */
+      background:var(--paper);
+      border-radius:10px; /* Slightly bigger radius */
+      padding:30px 25px; /* More padding */
+      transform-origin:top center;
+      transform:translateY(25px) translateZ(1px);
+      box-shadow:0 10px 30px rgba(0,0,0,.12), inset 0 0 10px rgba(0,0,0,0.04);
+      opacity:0;
+      transition:transform 800ms cubic-bezier(.2,.9,.25,1),opacity 400ms ease;
+      pointer-events:none;
+      overflow-y:auto;
+      max-height:calc(100% - 35px);
+    }
+    
+    .envelope.open .flap{
+      transform:rotateX(-180deg)
+    }
+    
+    .envelope.open .letter{
+      transform:translateY(-20px) translateZ(50px); /* More lift */
+      opacity:1;
+      pointer-events:auto;
+    }
     
     /* IMPROVED LETTER CONTENT */
-    .message{text-align:left;line-height:1.6;}
-    .message h1{margin:0 0 10px;font-size:22px;color:var(--env-dark);text-align:center;}
-    .letter-date{text-align:center;color:#9e6a6a;font-size:14px;margin-bottom:20px;font-style:italic;}
-    .message p{margin:0 0 18px;font-size:15px;line-height:1.65;color:#5c3a3a;text-align:justify;}
-    .message .highlight{color:var(--env-dark);font-weight:600;}
-    .letter-signature{text-align:right;margin-top:25px;padding-top:15px;border-top:1px dashed var(--accent);}
-    .letter-signature p{margin:5px 0;color:#4b2a2a;font-size:16px;}
+    .message{
+      text-align:left;
+      line-height:1.6;
+    }
+    
+    .message h1{
+      margin:0 0 15px; /* More margin */
+      font-size:26px; /* Bigger font */
+      color:var(--env-dark);
+      text-align:center;
+    }
+    
+    .letter-date{
+      text-align:center;
+      color:#9e6a6a;
+      font-size:16px; /* Slightly bigger */
+      margin-bottom:25px; /* More margin */
+      font-style:italic;
+    }
+    
+    .message p{
+      margin:0 0 20px; /* More margin between paragraphs */
+      font-size:16px; /* Bigger text */
+      line-height:1.7; /* Better line height */
+      color:#5c3a3a;
+      text-align:justify;
+    }
+    
+    .message .highlight{
+      color:var(--env-dark);
+      font-weight:600;
+    }
+    
+    .letter-signature{
+      text-align:right;
+      margin-top:30px; /* More margin */
+      padding-top:20px; /* More padding */
+      border-top:2px dashed var(--accent); /* Thicker border */
+    }
+    
+    .letter-signature p{
+      margin:5px 0;
+      color:#4b2a2a;
+      font-size:18px; /* Bigger font */
+    }
+    
+    /* LETTER PAGINATION */
+    .letter-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .letter-pagination button {
+      padding: 8px 20px;
+      background: var(--accent);
+      font-size: 14px;
+    }
+    
+    .letter-pagination span {
+      color: var(--env-dark);
+      font-weight: 600;
+      font-size: 16px;
+      min-width: 100px;
+      text-align: center;
+    }
+    
+    /* LETTER PAGE CONTENT */
+    .letter-page {
+      display: none;
+    }
+    
+    .letter-page.active {
+      display: block;
+    }
 
     /* TIME PAGE */
     .time-card{background:#fff9fb;border-radius:20px;padding:35px 25px;box-shadow:var(--shadow);max-width:400px;text-align:center;border:2px solid var(--accent);position:relative;overflow:hidden;}
@@ -151,13 +313,34 @@
     .footer-note{position:absolute;bottom:20px;color:#9e8a8a;font-size:14px;text-align:center;width:100%;}
     
     /* RESPONSIVE ADJUSTMENTS */
+    @media (max-width: 1200px) {
+      .envelope-container {
+        gap: 30px;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .envelope-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .scene {
+        width: 380px;
+        height: 320px;
+      }
+    }
+    
     @media (max-width: 768px) {
       .gallery{grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));gap:15px;}
       .gallery-item{height:190px;}
-      .scene{width:300px;height:250px;}
-      .letter{padding:20px 18px;}
-      .message p{font-size:14px;}
+      .scene{width:340px;height:290px;}
+      .letter{padding:25px 20px;}
+      .message p{font-size:15px;}
       .page-header h1{font-size:26px;}
+      .envelope-container {
+        gap: 20px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -166,6 +349,10 @@
       .music-card{padding:20px;max-width:320px;}
       .nav-buttons{gap:10px;flex-wrap:wrap;}
       button{padding:10px 18px;font-size:14px;}
+      .scene{width:300px;height:260px;}
+      .letter{padding:20px 18px;}
+      .message h1{font-size:22px;}
+      .message p{font-size:14px;}
     }
   </style>
 </head>
@@ -237,48 +424,147 @@
     </div>
   </div>
 
-  <!-- PAGE 2: ENVELOPE WITH IMPROVED LETTER -->
+  <!-- PAGE 2: ENVELOPE WITH MULTIPLE LETTER PAGES -->
   <div class="page" id="envelope-page">
     <div class="page-header">
       <span class="heart-decoration">💌</span>
-      <h1>A Love Letter for You</h1>
+      <h1>Love Letters for You</h1>
       <span class="heart-decoration">💌</span>
     </div>
     
-    <div class="scene">
-      <div class="envelope" id="env">
-        <div class="body"></div>
-        <div class="flap"></div>
-        <div class="seal">❤</div>
-        <div class="letter" id="letter">
-          <div class="message">
-            <h1>To My Dearest Lyn</h1>
-            <div class="letter-date">Happy 15th Monthsary! 💖</div>
+    <div class="envelope-container">
+      <!-- ENVELOPE 1: 15th Monthsary -->
+      <div class="scene">
+        <div class="envelope" id="env1">
+          <div class="body"></div>
+          <div class="flap"></div>
+          <div class="seal">15</div>
+          <div class="letter" id="letter1">
+            <!-- LETTER PAGINATION -->
+            <div class="letter-pagination">
+              <button class="prev-page">← Prev</button>
+              <span>Page <span class="current-page">1</span> of <span class="total-pages">3</span></span>
+              <button class="next-page">Next →</button>
+            </div>
             
-            <p>My love,</p>
+            <!-- PAGE 1 -->
+            <div class="letter-page active" data-page="1">
+              <div class="message">
+                <h1>To My Dearest Lyn</h1>
+                <div class="letter-date">Happy 15th Monthsary! 💖</div>
+                
+                <p>My love,</p>
+                
+                <p>Happy 15th monthsary, my love! 🥰✨ I hope you like this little gift I made for you. I promise next month's will be even better - I just didn't have enough time to make this as perfect as you deserve.</p>
+                
+                <p>We've been through <span class="highlight">so much together</span> these past months. I know I've made mistakes that hurt you, and I'm truly sorry for that. 😔 I try my best to avoid doing anything that would cause you pain, but sometimes I still mess up without meaning to.</p>
+                
+                <p>I often think back to our early memories together - those beautiful moments I'll <span class="highlight">never forget</span>. Sometimes I wish we could go back to the beginning and feel that fresh excitement again...</p>
+              </div>
+            </div>
             
-            <p>Happy 15th monthsary, my love! 🥰✨ I hope you like this little gift I made for you. I promise next month's will be even better - I just didn't have enough time to make this as perfect as you deserve.</p>
+            <!-- PAGE 2 -->
+            <div class="letter-page" data-page="2">
+              <div class="message">
+                <h1>To My Dearest Lyn</h1>
+                <div class="letter-date">Page 2 of 3</div>
+                
+                <p>...I've noticed how we've both changed over time, but my love for you has only grown stronger.</p>
+                
+                <p>Thank you for these past 15 months - for making me feel loved, important, and valued. I appreciate everything you do for me, even when I don't deserve it. I hope you can feel how much I love you, even when I accidentally hurt you. <span class="highlight">I'm truly sorry</span>, my love.</p>
+                
+                <p>Every day with you is a blessing that I don't take for granted. Your smile still makes my heart skip a beat, just like it did on our first date. Your laughter is my favorite sound in the world, and your presence brings peace to my soul.</p>
+                
+                <p>I remember all the little things about you - how your eyes light up when you're excited, the way you bite your lip when you're concentrating, and how you always know exactly what to say to make me feel better.</p>
+              </div>
+            </div>
             
-            <p>We've been through <span class="highlight">so much together</span> these past months. I know I've made mistakes that hurt you, and I'm truly sorry for that. 😔 I try my best to avoid doing anything that would cause you pain, but sometimes I still mess up without meaning to.</p>
-            
-            <p>I often think back to our early memories together - those beautiful moments I'll <span class="highlight">never forget</span>. Sometimes I wish we could go back to the beginning and feel that fresh excitement again. I've noticed how we've both changed over time, but my love for you has only grown stronger.</p>
-            
-            <p>Thank you for these past 15 months - for making me feel loved, important, and valued. I appreciate everything you do for me, even when I don't deserve it. I hope you can feel how much I love you, even when I accidentally hurt you. <span class="highlight">I'm truly sorry</span>, my love.</p>
-            
-            <p>Please take care of yourself every day. I want you to be happy always. I'm <span class="highlight">so proud of you</span> - more than you'll ever know! 🫶 Do your best in college, my love. And please... avoid situations that might hurt me, or I'll be crying! 😔🥺</p>
-            
-            <p>That's all for now, my love. I love you so much! 💖 Happy 15th monthsary, my baby! Mwaa! 💋🌷</p>
-            
-            <div class="letter-signature">
-              <p>Forever yours,</p>
-              <p><strong>Your love, Gab</strong></p>
+            <!-- PAGE 3 -->
+            <div class="letter-page" data-page="3">
+              <div class="message">
+                <h1>To My Dearest Lyn</h1>
+                <div class="letter-date">Page 3 of 3</div>
+                
+                <p>Please take care of yourself every day. I want you to be happy always. I'm <span class="highlight">so proud of you</span> - more than you'll ever know! 🫶 Do your best in college, my love. And please... avoid situations that might hurt me, or I'll be crying! 😔🥺</p>
+                
+                <p>Our journey hasn't always been easy, but every challenge has only made us stronger. Through all the ups and downs, my commitment to you has never wavered. You are worth every struggle, every effort, and every sacrifice.</p>
+                
+                <p>I look forward to all our future monthsaries, anniversaries, and all the ordinary days in between. Because every day with you is special, whether we're celebrating a milestone or just enjoying each other's company.</p>
+                
+                <p>That's all for now, my love. I love you so much! 💖 Happy 15th monthsary, my baby! Mwaa! 💋🌷</p>
+                
+                <div class="letter-signature">
+                  <p>Forever yours,</p>
+                  <p><strong>Your love, Gab</strong></p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <p style="color:#9e6a6a; margin-top:10px; font-size:14px;">15th Monthsary Letter</p>
+      </div>
+      
+      <!-- ENVELOPE 2: Future Letter -->
+      <div class="scene">
+        <div class="envelope" id="env2">
+          <div class="body"></div>
+          <div class="flap"></div>
+          <div class="seal">16</div>
+          <div class="letter" id="letter2">
+            <!-- LETTER PAGINATION -->
+            <div class="letter-pagination">
+              <button class="prev-page">← Prev</button>
+              <span>Page <span class="current-page">1</span> of <span class="total-pages">2</span></span>
+              <button class="next-page">Next →</button>
+            </div>
+            
+            <!-- PAGE 1 -->
+            <div class="letter-page active" data-page="1">
+              <div class="message">
+                <h1>To My Future Wife</h1>
+                <div class="letter-date">Looking Ahead 🌟</div>
+                
+                <p>My dearest Lyn,</p>
+                
+                <p>As we celebrate 15 months together, I can't help but dream about our future. This letter is a promise of what's to come - a glimpse into the beautiful life I want to build with you.</p>
+                
+                <p>I imagine us years from now, still holding hands, still laughing at each other's silly jokes, still finding new reasons to fall in love every day. I see us creating a home filled with love, warmth, and the little traditions that will become "our things."</p>
+                
+                <p>I promise to keep growing with you, to keep learning how to love you better each day. I know I'm not perfect, but I'm committed to becoming the man you deserve - patient, understanding, supportive, and endlessly devoted.</p>
+                
+                <p>I want to be there for all your triumphs and comfort you through every challenge. I want to celebrate your successes as if they were my own, because in many ways, they are.</p>
+              </div>
+            </div>
+            
+            <!-- PAGE 2 -->
+            <div class="letter-page" data-page="2">
+              <div class="message">
+                <h1>To My Future Wife</h1>
+                <div class="letter-date">Page 2 of 2</div>
+                
+                <p>I dream of the adventures we'll have - the places we'll visit, the foods we'll try, the memories we'll create. Whether we're traveling to exotic destinations or having a cozy night in, every moment will be magical because we're together.</p>
+                
+                <p>I look forward to building a life where we both can thrive, where we support each other's dreams and cheer each other on. A partnership where we're equals, teammates, and best friends.</p>
+                
+                <p>No matter what the future holds, know this: my love for you is constant. It will grow with each passing day, month, and year. It will adapt and strengthen through every season of our lives.</p>
+                
+                <p>This is just the beginning of our forever. I can't wait to write the next chapter with you.</p>
+                
+                <div class="letter-signature">
+                  <p>With all my love,</p>
+                  <p><strong>Always yours, Gab</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="color:#9e6a6a; margin-top:10px; font-size:14px;">Future Dreams Letter</p>
       </div>
     </div>
     
-    <p style="color:#9e6a6a; margin-top:10px;">Click the envelope to open/close the letter</p>
+    <p style="color:#9e6a6a; margin-top:10px; max-width:800px; line-height:1.6; padding:0 20px;">
+      Click on any envelope to open/close the letter. Use the pagination buttons inside each letter to read multiple pages.
+    </p>
     
     <div class="nav-buttons">
       <button class="secondary" id="backToGallery">⬅ Back to Memories</button>
@@ -374,15 +660,86 @@
       envelopePage.classList.add('active');
     });
 
-    // Envelope open/close
-    const env = document.getElementById('env');
-    const letter = document.getElementById('letter');
-    let open = false;
-    env.addEventListener('click', ()=>{
-      open = !open;
-      env.classList.toggle('open', open);
-      letter.setAttribute('aria-hidden', !open);
+    // ENVELOPE FUNCTIONALITY
+    // Envelope 1
+    const env1 = document.getElementById('env1');
+    const letter1 = document.getElementById('letter1');
+    let open1 = false;
+    
+    env1.addEventListener('click', ()=>{
+      open1 = !open1;
+      env1.classList.toggle('open', open1);
+      letter1.setAttribute('aria-hidden', !open1);
     });
+    
+    // Envelope 2
+    const env2 = document.getElementById('env2');
+    const letter2 = document.getElementById('letter2');
+    let open2 = false;
+    
+    env2.addEventListener('click', ()=>{
+      open2 = !open2;
+      env2.classList.toggle('open', open2);
+      letter2.setAttribute('aria-hidden', !open2);
+    });
+    
+    // LETTER PAGINATION FUNCTIONALITY
+    function setupLetterPagination(letterId) {
+      const letter = document.getElementById(letterId);
+      const pages = letter.querySelectorAll('.letter-page');
+      const prevBtn = letter.querySelector('.prev-page');
+      const nextBtn = letter.querySelector('.next-page');
+      const currentPageSpan = letter.querySelector('.current-page');
+      const totalPagesSpan = letter.querySelector('.total-pages');
+      
+      let currentPage = 1;
+      const totalPages = pages.length;
+      
+      totalPagesSpan.textContent = totalPages;
+      
+      function showPage(pageNum) {
+        // Hide all pages
+        pages.forEach(page => {
+          page.classList.remove('active');
+        });
+        
+        // Show the selected page
+        const pageToShow = letter.querySelector(`.letter-page[data-page="${pageNum}"]`);
+        if (pageToShow) {
+          pageToShow.classList.add('active');
+          currentPageSpan.textContent = pageNum;
+          currentPage = pageNum;
+        }
+        
+        // Update button states
+        prevBtn.disabled = (pageNum === 1);
+        nextBtn.disabled = (pageNum === totalPages);
+        
+        // Style disabled buttons
+        prevBtn.style.opacity = (pageNum === 1) ? '0.5' : '1';
+        nextBtn.style.opacity = (pageNum === totalPages) ? '0.5' : '1';
+      }
+      
+      // Event listeners for pagination buttons
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          showPage(currentPage - 1);
+        }
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          showPage(currentPage + 1);
+        }
+      });
+      
+      // Initialize first page
+      showPage(1);
+    }
+    
+    // Initialize pagination for both letters
+    setupLetterPagination('letter1');
+    setupLetterPagination('letter2');
 
     // Counter with improved display
     function startCounter(){
