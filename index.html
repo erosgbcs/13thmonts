@@ -749,39 +749,79 @@
     setInterval(createHeart,400);
 
     // ENHANCED GALLERY WITH LIGHTBOX
-    const memoryData = [
+     // ✅ Separate arrays with proper syntax
+     const memoryData = [
       { src: "pic1.jpg", title: "Our First Date", date: "The beginning of everything 💖" },
       { src: "pic2.jpg", title: "Laughing Together", date: "Your smile lights up my world ✨" },
       { src: "pic3.jpg", title: "Special Celebration", date: "Celebrating us 🎉" },
       { src: "pic4.jpg", title: "Quiet Moments", date: "Just you and me 🌙" },
       { src: "pic5.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
-      { src: "pic6.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
-      const memoryData1 =[
+      { src: "pic6.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" }
+];  // ✅ Closing bracket
+
+     const memoryData1 = [  // ✅ Separate array
       { src: "pic7.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
       { src: "pic8.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
       { src: "pic9.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
-      { src: "pic10.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" }
-    ];
+      { src: "pic10.jpg", title: "Adventures    Together", date: "Exploring life side by side 🗺️" }
+];  // ✅ Closing bracket
     
-    let currentImageIndex = 0;
+    // Add this variable at the top with other variables
+let currentGalleryPage = 1;
+const itemsPerPage = 6;
+
+function initGallery() {
+  const gallery = document.getElementById('memory-gallery');
+  gallery.innerHTML = '';
+  
+  // Determine which images to show based on current page
+  let imagesToShow = [];
+  if (currentGalleryPage === 1) {
+    // Show first 6 images
+    imagesToShow = memoryData.slice(0, itemsPerPage);
+  } else if (currentGalleryPage === 2 && memoryData1) {
+    // Show second page images
+    imagesToShow = memoryData1;
+  }
+  
+  imagesToShow.forEach((item, index) => {
+    const galleryItem = document.createElement('div');
+    galleryItem.className = 'gallery-item';
+    galleryItem.innerHTML = `
+      <img src="${item.src}" alt="${item.title}" data-index="${index}">
+      <div class="photo-label">${item.title}</div>
+    `;
+    gallery.appendChild(galleryItem);
     
-    function initGallery() {
-      const gallery = document.getElementById('memory-gallery');
-      gallery.innerHTML = '';
-      
-      memoryData.forEach((item, index) => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.innerHTML = `
-          <img src="${item.src}" alt="${item.title}" data-index="${index}">
-          <div class="photo-label">${item.title}</div>
-        `;
-        gallery.appendChild(galleryItem);
-        
-        // Add click event to each image
-        galleryItem.querySelector('img').addEventListener('click', () => {
-          openLightbox(index);
-        });
+    // Add click event to each image
+    galleryItem.querySelector('img').addEventListener('click', () => {
+      // Calculate actual index in combined array
+      const actualIndex = (currentGalleryPage === 1) ? index : memoryData.length + index;
+      openLightbox(actualIndex);
+    });
+  });
+  
+  // Update gallery counter text
+  const galleryCounter = document.querySelector('.gallery-counter');
+  const startIndex = (currentGalleryPage === 1) ? 1 : 7;
+  const endIndex = (currentGalleryPage === 1) ? 6 : 10;
+  galleryCounter.textContent = `Memories ${startIndex}-${endIndex} of 10`;
+}
+
+// Update gallery navigation buttons
+document.getElementById('prev-gallery').addEventListener('click', () => {
+  if (currentGalleryPage > 1) {
+    currentGalleryPage--;
+    initGallery();
+  }
+});
+
+document.getElementById('next-gallery').addEventListener('click', () => {
+  if (currentGalleryPage < 2) { // Change 2 to your total number of pages
+    currentGalleryPage++;
+    initGallery();
+  }
+});
       });
     }
     
