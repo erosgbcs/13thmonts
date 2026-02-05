@@ -12,9 +12,11 @@
       --paper:#fff9f8;
       --text:#4b2a2a;
       --accent:#ff85a2;
+      --shadow:0 10px 30px rgba(0,0,0,0.08);
+      --light-pink:#ffeff5;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    html,body{height:100%;margin:0;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x:hidden;}
     body{background:linear-gradient(180deg,var(--bg) 0%, #fff 100%);overflow:hidden;}
 
     /* GENERAL PAGE LAYOUT */
@@ -22,82 +24,78 @@
     .page.active{display:flex;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 
-    .nav-buttons{margin-top:20px;display:flex;gap:12px;justify-content:center;z-index:2;}
-    button{padding:10px 18px;border:none;border-radius:8px;background:var(--env-dark);color:#fff;font-size:16px;cursor:pointer;box-shadow:0 3px 6px rgba(0,0,0,0.2);transition:all 0.3s;z-index:2;}
-    button:hover{transform:scale(1.05);box-shadow:0 5px 12px rgba(0,0,0,0.25);}
-    button.secondary{background:#aaa;}
-  
+    .nav-buttons{margin-top:30px;display:flex;gap:15px;justify-content:center;z-index:2;}
+    button{padding:12px 24px;border:none;border-radius:50px;background:var(--env-dark);color:#fff;font-size:16px;cursor:pointer;box-shadow:0 4px 12px rgba(227,79,107,0.3);transition:all 0.3s;z-index:2;font-weight:600;letter-spacing:0.5px;}
+    button:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(227,79,107,0.4);}
+    button.secondary{background:#a78f97;}
+    button.secondary:hover{background:#9a7f88;}
+
+    /* HEADER DECORATION */
+    .page-header{position:relative;margin-bottom:25px;}
+    .page-header h1{font-size:32px;color:var(--env-dark);margin:0;position:relative;display:inline-block;}
+    .page-header h1:after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:60px;height:3px;background:var(--accent);border-radius:3px;}
+    .heart-decoration{font-size:24px;color:var(--accent);margin:0 8px;}
 
     /* FLOATING HEARTS */
     .hearts{position:absolute;inset:0;overflow:hidden;z-index:1;}
     .heart{position:absolute;bottom:-50px;font-size:24px;color:var(--accent);opacity:0.7;animation:floatUp 6s linear infinite;}
     @keyframes floatUp{
-      0%{transform:translateY(0) scale(1);opacity:0.7;}
+      0%{transform:translateY(0) scale(1) rotate(0deg);opacity:0.7;}
       50%{opacity:1;}
-      100%{transform:translateY(-110vh) scale(1.3);opacity:0;}
+      100%{transform:translateY(-110vh) scale(1.3) rotate(20deg);opacity:0;}
     }
 
     /* INTRO PAGE */
-    .music-card{background:#fff;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,0.15);padding:25px;max-width:350px;text-align:center;animation:float 3s ease-in-out infinite;z-index:2;}
-    .music-card img{width:100%;border-radius:16px;box-shadow:0 6px 14px rgba(0,0,0,0.15);}
-    .music-info{margin-top:15px;}
-    .music-info h2{margin:0;font-size:22px;color:var(--env-dark);}
-    .music-info p{margin:5px 0;color:#444;font-size:15px;line-height:1.5;}
+    .music-card{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:30px;max-width:380px;text-align:center;animation:float 3s ease-in-out infinite;z-index:2;border:1px solid rgba(255,255,255,0.8);}
+    .music-card img{width:100%;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,0.1);transition:transform 0.5s;}
+    .music-card:hover img{transform:scale(1.02);}
+    .music-info{margin-top:20px;}
+    .music-info h2{margin:0;font-size:26px;color:var(--env-dark);}
+    .music-info p{margin:12px 0;color:#444;font-size:15px;line-height:1.6;}
     @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0);}}
 
-    /* PAGE 1 GALLERY */
-    #gallery-page h1{font-size:26px;color:var(--env-dark);margin-bottom:20px;}
-    .gallery{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;}
-    .gallery img {
-      width:140px;
-      height:200px;
-      object-fit:cover;
-      border-radius:14px;
-      box-shadow:0 6px 15px rgba(0,0,0,0.15);
-      opacity:0;
-      transform:scale(0.8);
-      cursor:pointer;
-      animation:popIn 0.6s forwards;
-      transition:transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .gallery img:nth-child(1){animation-delay:0.2s;}
-    .gallery img:nth-child(2){animation-delay:0.4s;}
-    .gallery img:nth-child(3){animation-delay:0.6s;}
-    .gallery img:nth-child(4){animation-delay:0.8s;}
+    /* PAGE 1: ENHANCED GALLERY */
+    #gallery-page{padding:20px;justify-content:flex-start;padding-top:80px;}
+    #gallery-page .gallery-container{width:100%;max-width:1200px;}
+    
+    .gallery-controls{display:flex;justify-content:center;align-items:center;gap:15px;margin-bottom:25px;}
+    .gallery-nav-btn{background:var(--env);color:white;border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+    .gallery-nav-btn:hover{background:var(--env-dark);transform:scale(1.1);}
+    
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:20px;justify-content:center;margin-bottom:30px;}
+    .gallery-item{position:relative;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);height:220px;cursor:pointer;transition:all 0.4s ease;}
+    .gallery-item:hover{transform:translateY(-8px);box-shadow:0 15px 30px rgba(0,0,0,0.15);}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
+    .gallery-item:hover img{transform:scale(1.08);}
+    .gallery-item .photo-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);color:white;padding:8px;font-size:14px;transform:translateY(100%);transition:transform 0.3s;}
+    .gallery-item:hover .photo-label{transform:translateY(0);}
+    
+    .gallery-counter{color:var(--env-dark);font-weight:600;margin-top:10px;font-size:15px;}
 
-    @keyframes popIn {
-      to {
-        opacity:1;
-        transform:scale(1);
-      }
-    }
-    .gallery img:hover {
-      transform:scale(1.05) rotate(1deg);
-      box-shadow:0 10px 20px rgba(0,0,0,0.25);
-    }
-
-    /* Lightbox Reveal */
+    /* IMPROVED LIGHTBOX */
     .lightbox{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,0.8);
+      background:rgba(0,0,0,0.92);
       display:flex;
+      flex-direction:column;
       align-items:center;
       justify-content:center;
       opacity:0;
       visibility:hidden;
       transition:opacity 0.5s ease;
-      z-index:10;
+      z-index:100;
     }
     .lightbox.active{
       opacity:1;
       visibility:visible;
     }
+    .lightbox-content{display:flex;flex-direction:column;align-items:center;width:90%;max-width:900px;}
     .lightbox img{
-      max-width:90%;
-      max-height:80%;
-      border-radius:16px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.5);
+      max-width:100%;
+      max-height:70vh;
+      border-radius:12px;
+      box-shadow:0 15px 40px rgba(0,0,0,0.5);
       transform:scale(0.7);
       opacity:0;
       animation:revealImg 0.6s forwards;
@@ -105,102 +103,215 @@
     @keyframes revealImg{
       to{transform:scale(1);opacity:1;}
     }
+    .lightbox-info{color:white;margin-top:20px;text-align:center;max-width:600px;}
+    .lightbox-info h3{font-size:22px;margin-bottom:8px;}
+    .lightbox-info p{font-size:16px;opacity:0.9;}
+    .lightbox-close{position:absolute;top:30px;right:30px;background:none;border:none;color:white;font-size:30px;cursor:pointer;z-index:101;}
+    .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 30px;}
+    .lightbox-nav button{background:rgba(255,255,255,0.2);border:none;color:white;width:50px;height:50px;border-radius:50%;font-size:22px;cursor:pointer;transition:all 0.3s;}
+    .lightbox-nav button:hover{background:rgba(255,255,255,0.3);transform:scale(1.1);}
 
-    /* ENVELOPE PAGE */
-    .scene{width:320px;height:240px;perspective:900px;}
+    /* ENVELOPE PAGE WITH IMPROVED LETTER */
+    #envelope-page{justify-content:center;}
+    .scene{width:350px;height:280px;perspective:1000px;margin-bottom:40px;}
     .envelope{width:100%;height:100%;position:relative;transform-style:preserve-3d;cursor:pointer;
-      transition:transform 600ms cubic-bezier(.2,.9,.25,1);display:flex;align-items:center;justify-content:center;}
-    .body{position:absolute;inset:0;border-radius:8px;background:linear-gradient(180deg,var(--env) 0%,var(--env-dark) 100%);box-shadow:0 10px 30px rgba(0,0,0,.15);transform:translateZ(-1px);overflow:hidden;}
+      transition:transform 700ms cubic-bezier(.2,.9,.25,1);display:flex;align-items:center;justify-content:center;}
+    .body{position:absolute;inset:0;border-radius:12px;background:linear-gradient(135deg,var(--env) 0%,var(--env-dark) 100%);box-shadow:0 15px 35px rgba(0,0,0,.15);transform:translateZ(-1px);overflow:hidden;}
     .flap{position:absolute;left:0;right:0;top:0;height:60%;background:linear-gradient(180deg,var(--env-dark),var(--env));transform-origin:top center;transform:rotateX(0deg);
-      border-bottom:1px solid rgba(0,0,0,.06);transition:transform 700ms cubic-bezier(.2,.9,.25,1);clip-path:polygon(0 0,100% 0,50% 100%);}
-    .seal{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 30% 25%, #ffd0da, var(--env-dark));
-      display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(227,79,107,.28),inset 0 -6px 10px rgba(0,0,0,.08);font-weight:700;color:white;font-size:22px;letter-spacing:1px;}
-    .letter{position:absolute;left:12px;right:12px;top:18px;bottom:12px;background:var(--paper);border-radius:6px;padding:22px 20px;
-      transform-origin:top center;transform:translateY(22px) translateZ(1px);box-shadow:0 6px 18px rgba(0,0,0,.06), inset 0 0 8px rgba(0,0,0,0.05);
-      opacity:0;transition:transform 700ms cubic-bezier(.2,.9,.25,1),opacity 300ms ease;pointer-events:none;overflow-y:auto;max-height:calc(100% - 30px);}
+      border-bottom:1px solid rgba(0,0,0,.06);transition:transform 800ms cubic-bezier(.2,.9,.25,1);clip-path:polygon(0 0,100% 0,50% 100%);}
+    .seal{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 30% 25%, #ffd0da, var(--env-dark));
+      display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(227,79,107,.35),inset 0 -6px 12px rgba(0,0,0,.08);font-weight:700;color:white;font-size:26px;letter-spacing:1px;z-index:2;transition:all 0.5s;}
+    .envelope.open .seal{transform:translate(-50%, -50%) scale(0.8);opacity:0.7;}
+    
+    .letter{position:absolute;left:12px;right:12px;top:18px;bottom:12px;background:var(--paper);border-radius:8px;padding:25px 22px;
+      transform-origin:top center;transform:translateY(22px) translateZ(1px);box-shadow:0 8px 25px rgba(0,0,0,.08), inset 0 0 8px rgba(0,0,0,0.03);
+      opacity:0;transition:transform 800ms cubic-bezier(.2,.9,.25,1),opacity 400ms ease;pointer-events:none;overflow-y:auto;max-height:calc(100% - 30px);}
+    
     .envelope.open .flap{transform:rotateX(-180deg)}
     .envelope.open .letter{transform:translateY(-18px) translateZ(40px);opacity:1;pointer-events:auto;}
-    .message h1{margin:0 0 8px;font-size:20px;color:var(--text)}
-    .message p{margin:0;font-size:15px;line-height:1.45;color:#6a4b4b}
+    
+    /* IMPROVED LETTER CONTENT */
+    .message{text-align:left;line-height:1.6;}
+    .message h1{margin:0 0 10px;font-size:22px;color:var(--env-dark);text-align:center;}
+    .letter-date{text-align:center;color:#9e6a6a;font-size:14px;margin-bottom:20px;font-style:italic;}
+    .message p{margin:0 0 18px;font-size:15px;line-height:1.65;color:#5c3a3a;text-align:justify;}
+    .message .highlight{color:var(--env-dark);font-weight:600;}
+    .letter-signature{text-align:right;margin-top:25px;padding-top:15px;border-top:1px dashed var(--accent);}
+    .letter-signature p{margin:5px 0;color:#4b2a2a;font-size:16px;}
 
     /* TIME PAGE */
-    .time-card{background:#fff9fb;border-radius:16px;padding:30px 20px;box-shadow:0 8px 20px rgba(0,0,0,0.15);max-width:360px;text-align:center;border:2px solid var(--accent);}
-    .time-card h1{color:var(--env-dark);font-size:22px;margin:0 0 15px;}
-    .time-card p{margin:8px 0;font-size:16px;font-weight:500;color:#4b2a2a;}
-    .cute-heart{font-size:20px;color:var(--accent);display:inline-block;margin-right:6px;}
+    .time-card{background:#fff9fb;border-radius:20px;padding:35px 25px;box-shadow:var(--shadow);max-width:400px;text-align:center;border:2px solid var(--accent);position:relative;overflow:hidden;}
+    .time-card:before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg, var(--env), var(--accent));}
+    .time-card h1{color:var(--env-dark);font-size:24px;margin:0 0 20px;}
+    .time-card p{margin:12px 0;font-size:17px;font-weight:500;color:#4b2a2a;}
+    .cute-heart{font-size:22px;color:var(--accent);display:inline-block;margin-right:8px;}
+    .counter-display{font-size:18px;background:var(--light-pink);padding:15px;border-radius:12px;margin:20px 0;}
+    
+    /* FOOTER NOTE */
+    .footer-note{position:absolute;bottom:20px;color:#9e8a8a;font-size:14px;text-align:center;width:100%;}
+    
+    /* RESPONSIVE ADJUSTMENTS */
+    @media (max-width: 768px) {
+      .gallery{grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));gap:15px;}
+      .gallery-item{height:190px;}
+      .scene{width:300px;height:250px;}
+      .letter{padding:20px 18px;}
+      .message p{font-size:14px;}
+      .page-header h1{font-size:26px;}
+    }
+    
+    @media (max-width: 480px) {
+      .gallery{grid-template-columns:repeat(2, 1fr);}
+      .gallery-item{height:170px;}
+      .music-card{padding:20px;max-width:320px;}
+      .nav-buttons{gap:10px;flex-wrap:wrap;}
+      button{padding:10px 18px;font-size:14px;}
+    }
   </style>
 </head>
 <body>
   <!-- PAGE 0: INTRO / THEME SONG -->
   <div class="page active" id="intro-page">
     <div class="hearts" id="hearts"></div>
+    <div class="page-header">
+      <span class="heart-decoration">💖</span>
+      <h1>Our Love Story</h1>
+      <span class="heart-decoration">💖</span>
+    </div>
     <div class="music-card">
       <img src="cover.jpg" alt="Theme song cover">
       <div class="music-info">
-        <h2>💖 Our Theme Song</h2>
+        <h2>🎶 Our Theme Song</h2>
         <p><em>"This song reminds me of the day you said YES... the moment my world became brighter, and my heart finally found its home in you."</em></p>
-        <p>You are my melody, my safe place, and the sweetest part of my story. Every beat of this song is for you. 🎶</p>
-        <button id="playSong">▶ Play</button>
+        <p>You are my melody, my safe place, and the sweetest part of my story. Every beat of this song is for you. 💕</p>
+        <button id="playSong">▶ Play Theme Song</button>
       </div>
     </div>
     <div class="nav-buttons">
-      <button id="toGallery">Next ➝</button>
+      <button id="toGallery">View Our Memories ➝</button>
     </div>
+    <div class="footer-note">Made with 💖 for Lyn</div>
   </div>
 
-  <!-- PAGE 1: GALLERY -->
+  <!-- PAGE 1: ENHANCED GALLERY -->
   <div class="page" id="gallery-page">
-    <h1>💞 Our Memories</h1>
-    <div class="gallery">
-      <img src="pic1.jpg" alt="memory1">
-      <img src="pic2.jpg" alt="memory2">
-      <img src="pic3.jpg" alt="memory3">
-      <img src="pic4.jpg" alt="memory4">
-      <img src="pic5.jpg" alt="memory5">
-      <img src="pic6.jpg" alt="memory6">
+    <div class="hearts" id="gallery-hearts"></div>
+    <div class="page-header">
+      <span class="heart-decoration">📸</span>
+      <h1>Our Beautiful Memories</h1>
+      <span class="heart-decoration">💞</span>
     </div>
+    
+    <div class="gallery-container">
+      <div class="gallery-controls">
+        <button class="gallery-nav-btn" id="prev-gallery">←</button>
+        <span class="gallery-counter">Memories 1-6 of 6</span>
+        <button class="gallery-nav-btn" id="next-gallery">→</button>
+      </div>
+      
+      <div class="gallery" id="memory-gallery">
+        <!-- Gallery items will be dynamically added -->
+      </div>
+    </div>
+    
     <div class="nav-buttons">
-      <button class="secondary" id="backToIntro">⬅ Previous</button>
-      <button id="toEnvelope">Next ➝</button>
+      <button class="secondary" id="backToIntro">⬅ Back to Song</button>
+      <button id="toEnvelope">Open Love Letter ➝</button>
+    </div>
+    <div class="footer-note">Click on any photo to view it larger</div>
+  </div>
+
+  <!-- Enhanced Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="close-lightbox">×</button>
+    <div class="lightbox-content">
+      <img src="" alt="expanded memory" id="lightbox-image">
+      <div class="lightbox-info">
+        <h3 id="lightbox-title">Our Memory</h3>
+        <p id="lightbox-date">A beautiful moment in our journey</p>
+      </div>
+    </div>
+    <div class="lightbox-nav">
+      <button id="lightbox-prev">←</button>
+      <button id="lightbox-next">→</button>
     </div>
   </div>
 
-  <!-- Lightbox for gallery -->
-  <div class="lightbox" id="lightbox">
-    <img src="" alt="expanded memory">
-  </div>
-
-  <!-- PAGE 2: ENVELOPE -->
+  <!-- PAGE 2: ENVELOPE WITH IMPROVED LETTER -->
   <div class="page" id="envelope-page">
-    <div class="scene" id="page1" title="Click the envelope to open/close">
+    <div class="page-header">
+      <span class="heart-decoration">💌</span>
+      <h1>A Love Letter for You</h1>
+      <span class="heart-decoration">💌</span>
+    </div>
+    
+    <div class="scene">
       <div class="envelope" id="env">
         <div class="body"></div>
-        <div class="flap"></div><div class="seal">❤</div>
-        <div class="letter" id="letter" aria-hidden="true">
+        <div class="flap"></div>
+        <div class="seal">❤</div>
+        <div class="letter" id="letter">
           <div class="message">
-            <h1>for you, my lyn, and love ko,</h1>
-            <p>happy 15th monthsarry lovee!!🥰✨💋😚 I hope magustuhan moto love ko, gawa ko sayo and for the nxt month mas gaganda pato plss kulang lg tlga sa time yong paggwa ko neto, so love angdami na natin pinagdaanan huhu super super rami☹️ iknow na nmn I have mistake sayo :< sana love sa mga nagawa kong kasalanan sayo mapatawad monako :< and love alam mo iniiwasan ko nmn tlgang gumawa ng ikakahurt mo love e pero diko alam kung bakit hindi ako maiwas iwasan nyan bwesit. and love sana ako parin piliin mo hanngang dulo kahit nakaksawa nako at nkakainis sayo✨🙁🥺 love naalala ko pa nong mga dati natin memories diko malilimutan yon. iwishh na sana mabalik sa umpisa yong love natin parehas nmn tayo may gusto non sana love bumalik nlg tayo sa umpisa at ibalik natin kung ano meron tayo love napapansin ko din kasi nagbabago n tlga tayo 😔🙃 love thank thank you for the past months for making me loved, and important to you naapreciate ko yon love ko sana maramdamn mo din yong love ko sayo khit n nkkasakit ako sayo I'm really sorry love love ko, gusto ko magiingat ka palagi sa araw araw gusto ko masaya ka palagi. and love I'm really proud of youu kung alm mo lg 🫵🫶 lagi mong galingan mahal ko, and goodluck din s college mo ah iwasan mo yong mga ikakahurt ko kundi iiyak ako🙁🥺. so ayon lg love huhu iloveyouuuu smm mahal ko 💋💖💗💐💐 Happy 15th monthsarry baby ko mwaa💌🌷💞🫂</p>
+            <h1>To My Dearest Lyn</h1>
+            <div class="letter-date">Happy 15th Monthsary! 💖</div>
             
-            <p style="margin-top:10px">Nagmamahal, <br><strong>-your love,gab</strong></p>
+            <p>My love,</p>
+            
+            <p>Happy 15th monthsary, my love! 🥰✨ I hope you like this little gift I made for you. I promise next month's will be even better - I just didn't have enough time to make this as perfect as you deserve.</p>
+            
+            <p>We've been through <span class="highlight">so much together</span> these past months. I know I've made mistakes that hurt you, and I'm truly sorry for that. 😔 I try my best to avoid doing anything that would cause you pain, but sometimes I still mess up without meaning to.</p>
+            
+            <p>I often think back to our early memories together - those beautiful moments I'll <span class="highlight">never forget</span>. Sometimes I wish we could go back to the beginning and feel that fresh excitement again. I've noticed how we've both changed over time, but my love for you has only grown stronger.</p>
+            
+            <p>Thank you for these past 15 months - for making me feel loved, important, and valued. I appreciate everything you do for me, even when I don't deserve it. I hope you can feel how much I love you, even when I accidentally hurt you. <span class="highlight">I'm truly sorry</span>, my love.</p>
+            
+            <p>Please take care of yourself every day. I want you to be happy always. I'm <span class="highlight">so proud of you</span> - more than you'll ever know! 🫶 Do your best in college, my love. And please... avoid situations that might hurt me, or I'll be crying! 😔🥺</p>
+            
+            <p>That's all for now, my love. I love you so much! 💖 Happy 15th monthsary, my baby! Mwaa! 💋🌷</p>
+            
+            <div class="letter-signature">
+              <p>Forever yours,</p>
+              <p><strong>Your love, Gab</strong></p>
+            </div>
           </div>
         </div>
       </div>
-      <div class="nav-buttons">
-        <button class="secondary" id="backToGallery">⬅ Previous</button>
-        <button id="toTime">Next ➝</button>
-      </div>
+    </div>
+    
+    <p style="color:#9e6a6a; margin-top:10px;">Click the envelope to open/close the letter</p>
+    
+    <div class="nav-buttons">
+      <button class="secondary" id="backToGallery">⬅ Back to Memories</button>
+      <button id="toTime">See Our Time Together ➝</button>
     </div>
   </div>
 
   <!-- PAGE 3: TIME COUNTER -->
   <div class="page" id="time-page">
+    <div class="page-header">
+      <span class="heart-decoration">⏳</span>
+      <h1>Our Time Together</h1>
+      <span class="heart-decoration">💝</span>
+    </div>
+    
     <div class="time-card">
-      <h1>⏳ Time We’ve Spent Together</h1>
-      <p id="counter">Loading...</p>
+      <h1>⏳ Time We've Shared</h1>
+      <p>Every moment with you is a treasure</p>
+      
+      <div class="counter-display">
+        <p id="counter">Loading our beautiful time...</p>
+      </div>
+      
+      <p><span class="cute-heart">💖</span> Since June 6, 2024 <span class="cute-heart">💖</span></p>
+      <p>Counting every second I get to love you</p>
     </div>
+    
     <div class="nav-buttons">
-      <button class="secondary" id="backToEnvelope">⬅ Previous</button>
+      <button class="secondary" id="backToEnvelope">⬅ Back to Letter</button>
+      <button onclick="location.href='#intro-page'; document.getElementById('intro-page').classList.add('active'); document.getElementById('time-page').classList.remove('active');">Back to Start 🔄</button>
     </div>
+    
+    <div class="footer-note">Made with endless love for my Lyn 💕</div>
   </div>
 
   <!-- MUSIC FILE -->
@@ -210,6 +321,7 @@
   </audio>
 
   <script>
+    // Music Player
     const music = document.getElementById('bg-music');
     const playSongBtn = document.getElementById('playSong');
     let isPlaying = false;
@@ -218,25 +330,26 @@
       if(isPlaying){
         music.pause();
         isPlaying = false;
-        playSongBtn.textContent = "▶ Play";
+        playSongBtn.textContent = "▶ Play Theme Song";
       } else {
-        music.play();
+        music.play().catch(e => console.log("Autoplay prevented:", e));
         isPlaying = true;
-        playSongBtn.textContent = "⏸ Pause";
+        playSongBtn.textContent = "⏸ Pause Music";
       }
     });
 
-    // Pages
+    // Pages Navigation
     const introPage = document.getElementById('intro-page');
     const galleryPage = document.getElementById('gallery-page');
     const envelopePage = document.getElementById('envelope-page');
     const timePage = document.getElementById('time-page');
     const counter = document.getElementById('counter');
 
-    // Navigation
+    // Navigation functions
     document.getElementById('toGallery').addEventListener('click',()=>{
       introPage.classList.remove('active');
       galleryPage.classList.add('active');
+      initGallery();
     });
     document.getElementById('backToIntro').addEventListener('click',()=>{
       galleryPage.classList.remove('active');
@@ -249,6 +362,7 @@
     document.getElementById('backToGallery').addEventListener('click',()=>{
       envelopePage.classList.remove('active');
       galleryPage.classList.add('active');
+      initGallery();
     });
     document.getElementById('toTime').addEventListener('click',()=>{
       envelopePage.classList.remove('active');
@@ -270,33 +384,30 @@
       letter.setAttribute('aria-hidden', !open);
     });
 
-    // Counter
+    // Counter with improved display
     function startCounter(){
       const startDate = new Date("2024-06-06T00:00:00");
-      setInterval(()=>{
+      
+      function updateCounter() {
         const now = new Date();
-        let years = now.getFullYear() - startDate.getFullYear();
-        let months = now.getMonth() - startDate.getMonth();
-        let days = now.getDate() - startDate.getDate();
-        let hours = now.getHours() - startDate.getHours();
-        let minutes = now.getMinutes() - startDate.getMinutes();
-        let seconds = now.getSeconds() - startDate.getSeconds();
-
-        if(seconds < 0){ seconds += 60; minutes--; }
-        if(minutes < 0){ minutes += 60; hours--; }
-        if(hours < 0){ hours += 24; days--; }
-        if(days < 0){
-          months--;
-          let prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-          days += prevMonth.getDate();
-        }
-        if(months < 0){ months += 12; years--; }
-
+        const diff = now - startDate;
+        
+        const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+        const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
         counter.innerHTML = `
-          <span class="cute-heart">❤</span> ${years} years, ${months} months, ${days} days <br>
-          <span class="cute-heart">💖</span> ${hours} hours, ${minutes} minutes, ${seconds} seconds
+          <span class="cute-heart">❤️</span> <strong>${years}</strong> years, <strong>${months}</strong> months, <strong>${days}</strong> days <br><br>
+          <span class="cute-heart">💕</span> <strong>${hours}</strong> hours, <strong>${minutes}</strong> minutes, <strong>${seconds}</strong> seconds <br><br>
+          <span class="cute-heart">✨</span> That's <strong>${Math.floor(diff/(1000*60*60*24))}</strong> amazing days together!
         `;
-      },1000);
+      }
+      
+      updateCounter();
+      setInterval(updateCounter, 1000);
     }
 
     // Floating Hearts
@@ -304,26 +415,124 @@
     function createHeart(){
       const heart = document.createElement('div');
       heart.classList.add('heart');
-      heart.textContent = "❤";
+      heart.textContent = ["❤", "💖", "💗", "💓", "💕", "💞"][Math.floor(Math.random()*6)];
       heart.style.left = Math.random()*100 + "vw";
-      heart.style.fontSize = (16 + Math.random()*20) + "px";
-      heart.style.animationDuration = (4 + Math.random()*4) + "s";
+      heart.style.fontSize = (18 + Math.random()*24) + "px";
+      heart.style.animationDuration = (4 + Math.random()*5) + "s";
       heartsContainer.appendChild(heart);
-      setTimeout(()=>heart.remove(),6000);
+      setTimeout(()=>heart.remove(),7000);
     }
-    setInterval(createHeart,500);
+    setInterval(createHeart,400);
 
-    // Lightbox for gallery
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-    document.querySelectorAll('.gallery img').forEach(img=>{
-      img.addEventListener('click',()=>{
-        lightboxImg.src = img.src;
-        lightbox.classList.add('active');
+    // ENHANCED GALLERY WITH LIGHTBOX
+    const memoryData = [
+      { src: "pic1.jpg", title: "Our First Date", date: "The beginning of everything 💖" },
+      { src: "pic2.jpg", title: "Laughing Together", date: "Your smile lights up my world ✨" },
+      { src: "pic3.jpg", title: "Special Celebration", date: "Celebrating us 🎉" },
+      { src: "pic4.jpg", title: "Quiet Moments", date: "Just you and me 🌙" },
+      { src: "pic5.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
+      { src: "pic6.jpg", title: "Looking to the Future", date: "Our beautiful journey continues 🌅" }
+    ];
+    
+    let currentImageIndex = 0;
+    
+    function initGallery() {
+      const gallery = document.getElementById('memory-gallery');
+      gallery.innerHTML = '';
+      
+      memoryData.forEach((item, index) => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.innerHTML = `
+          <img src="${item.src}" alt="${item.title}" data-index="${index}">
+          <div class="photo-label">${item.title}</div>
+        `;
+        gallery.appendChild(galleryItem);
+        
+        // Add click event to each image
+        galleryItem.querySelector('img').addEventListener('click', () => {
+          openLightbox(index);
+        });
       });
-    });
-    lightbox.addEventListener('click',()=>{
+    }
+    
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDate = document.getElementById('lightbox-date');
+    
+    function openLightbox(index) {
+      currentImageIndex = index;
+      const item = memoryData[index];
+      
+      lightboxImage.src = item.src;
+      lightboxTitle.textContent = item.title;
+      lightboxDate.textContent = item.date;
+      
+      lightbox.classList.add('active');
+    }
+    
+    // Lightbox controls
+    document.getElementById('close-lightbox').addEventListener('click', () => {
       lightbox.classList.remove('active');
+    });
+    
+    document.getElementById('lightbox-prev').addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentImageIndex = (currentImageIndex - 1 + memoryData.length) % memoryData.length;
+      const item = memoryData[currentImageIndex];
+      lightboxImage.src = item.src;
+      lightboxTitle.textContent = item.title;
+      lightboxDate.textContent = item.date;
+    });
+    
+    document.getElementById('lightbox-next').addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentImageIndex = (currentImageIndex + 1) % memoryData.length;
+      const item = memoryData[currentImageIndex];
+      lightboxImage.src = item.src;
+      lightboxTitle.textContent = item.title;
+      lightboxDate.textContent = item.date;
+    });
+    
+    // Close lightbox when clicking on background
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+      }
+    });
+    
+    // Gallery navigation buttons
+    document.getElementById('prev-gallery').addEventListener('click', () => {
+      const gallery = document.getElementById('memory-gallery');
+      gallery.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+    
+    document.getElementById('next-gallery').addEventListener('click', () => {
+      const gallery = document.getElementById('memory-gallery');
+      gallery.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+    
+    // Initialize gallery on load if we're on the gallery page
+    if (galleryPage.classList.contains('active')) {
+      initGallery();
+    }
+    
+    // Initialize the page
+    initGallery();
+    
+    // Add keyboard navigation for lightbox
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') {
+        lightbox.classList.remove('active');
+      } else if (e.key === 'ArrowLeft') {
+        document.getElementById('lightbox-prev').click();
+      } else if (e.key === 'ArrowRight') {
+        document.getElementById('lightbox-next').click();
+      }
     });
   </script>
 </body>
