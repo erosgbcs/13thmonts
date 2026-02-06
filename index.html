@@ -93,6 +93,19 @@
     button:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(227,79,107,0.4);}
     button.secondary{background:var(--secondary-btn);}
     button.secondary:hover{background:var(--secondary-btn-hover);}
+    
+    /* Letter pagination button disabled state */
+    .letter-pagination button:disabled {
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+      opacity: 0.5;
+    }
+    
+    .letter-pagination button:disabled:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
 
     /* HEADER DECORATION */
     .page-header{position:relative;margin-bottom:25px;}
@@ -535,9 +548,9 @@
           <div class="letter" id="letter1">
             <!-- LETTER PAGINATION -->
             <div class="letter-pagination">
-              <button class="prev-page">← Prev</button>
-              <span>Page <span class="current-page">1</span> of <span class="total-pages">3</span></span>
-              <button class="next-page">Next →</button>
+              <button class="prev-page" id="prev-letter-1">← Prev</button>
+              <span>Page <span class="current-page">1</span> of <span class="total-pages">1</span></span>
+              <button class="next-page" id="next-letter-1">Next →</button>
             </div>
             
             <!-- PAGE 1 -->
@@ -549,10 +562,9 @@
                 <p>My love,</p>
                 
                 <p>happy 15th monthsarry lovee!!🥰✨💋😚 I hope magustuhan moto love ko, gawa ko sayo and for the nxt month mas gaganda pato plss kulang lg tlga sa time yong paggwa ko neto, so love angdami na natin pinagdaanan huhu super super rami☹️ iknow na nmn I have mistake sayo :< sana love sa mga nagawa kong kasalanan sayo mapatawad monako :< and love alam mo iniiwasan ko nmn tlgang gumawa ng ikakahurt mo love e pero diko alam kung bakit hindi ako maiwas iwasan nyan bwesit. and love sana ako parin piliin mo hanngang dulo kahit nakaksawa nako at nkakainis sayo✨🙁🥺 love naalala ko pa nong mga dati natin memories diko malilimutan yon. iwishh na sana mabalik sa umpisa yong love natin parehas nmn tayo may gusto non sana love bumalik nlg tayo sa umpisa at ibalik natin kung ano meron tayo love napapansin ko din kasi nagbabago n tlga tayo 😔🙃 love thank thank you for the past months for making me loved, and important to you naapreciate ko yon love ko sana maramdamn mo din yong love ko sayo khit n nkkasakit ako sayo I'm really sorry love love ko, gusto ko magiingat ka palagi sa araw araw gusto ko masaya ka palagi. and love I'm really proud of youu kung alm mo lg 🫵🫶 lagi mong galingan mahal ko, and goodluck din s college mo ah iwasan mo yong mga ikakahurt ko kundi iiyak ako🙁🥺. so ayon lg love huhu iloveyouuuu smm mahal ko 💋💖💗💐💐 Happy 15th monthsarry baby ko mwaa💌🌷💞🫂</p>
-            
-            <p style="margin-top:10px">Nagmamahal, <br><strong>-your love,gab</strong></p>
-              </div>
-            </div>    
+                
+                <p style="margin-top:10px">Nagmamahal, <br><strong>-your love,gab</strong></p>
+                
                 <div class="letter-signature">
                   <p>Forever yours,</p>
                   <p><strong>Your love, Gab</strong></p>
@@ -573,9 +585,9 @@
           <div class="letter" id="letter2">
             <!-- LETTER PAGINATION -->
             <div class="letter-pagination">
-              <button class="prev-page">← Prev</button>
+              <button class="prev-page" id="prev-letter-2">← Prev</button>
               <span>Page <span class="current-page">1</span> of <span class="total-pages">2</span></span>
-              <button class="next-page">Next →</button>
+              <button class="next-page" id="next-letter-2">Next →</button>
             </div>
             
             <!-- PAGE 1 -->
@@ -623,12 +635,12 @@
     </div>
     
     <p style="color:var(--text); opacity:0.8; margin-top:10px; max-width:800px; line-height:1.6; padding:0 20px;">
-      Click on any envelope to open/close the letter. Use the pagination buttons inside each letter to read multiple pages.
+      Click on any envelope to open/close the letter. Click "Prev" on first page or "Next" on last page to go to Countdown.
     </p>
     
     <div class="nav-buttons">
-      <button class="secondary" id="backToGallery">⬅ Back to Memories</button>
-      <button id="toTime">See Our Time Together ➝</button>
+      <button class="secondary" id="backToGallery">⬅ Back to Gallery</button>
+      <button id="toTime">Next: Countdown ➝</button>
     </div>
   </div>
 
@@ -808,12 +820,12 @@
       letter2.setAttribute('aria-hidden', !open2);
     });
     
-    // LETTER PAGINATION FUNCTIONALITY
-    function setupLetterPagination(letterId) {
+    // LETTER PAGINATION FUNCTIONALITY WITH ENHANCED NAVIGATION
+    function setupLetterPagination(letterId, prevBtnId, nextBtnId) {
       const letter = document.getElementById(letterId);
       const pages = letter.querySelectorAll('.letter-page');
-      const prevBtn = letter.querySelector('.prev-page');
-      const nextBtn = letter.querySelector('.next-page');
+      const prevBtn = document.getElementById(prevBtnId);
+      const nextBtn = document.getElementById(nextBtnId);
       const currentPageSpan = letter.querySelector('.current-page');
       const totalPagesSpan = letter.querySelector('.total-pages');
       
@@ -845,16 +857,26 @@
         nextBtn.style.opacity = (pageNum === totalPages) ? '0.5' : '1';
       }
       
-      // Event listeners for pagination buttons
+      // Event listeners for pagination buttons with special behavior
       prevBtn.addEventListener('click', () => {
         if (currentPage > 1) {
           showPage(currentPage - 1);
+        } else {
+          // If on first page, go to countdown page
+          envelopePage.classList.remove('active');
+          timePage.classList.add('active');
+          startCounter();
         }
       });
       
       nextBtn.addEventListener('click', () => {
         if (currentPage < totalPages) {
           showPage(currentPage + 1);
+        } else {
+          // If on last page, go to countdown page
+          envelopePage.classList.remove('active');
+          timePage.classList.add('active');
+          startCounter();
         }
       });
       
@@ -862,9 +884,9 @@
       showPage(1);
     }
     
-    // Initialize pagination for both letters
-    setupLetterPagination('letter1');
-    setupLetterPagination('letter2');
+    // Initialize pagination for both letters with button IDs
+    setupLetterPagination('letter1', 'prev-letter-1', 'next-letter-1');
+    setupLetterPagination('letter2', 'prev-letter-2', 'next-letter-2');
 
     // Counter with improved display
     function startCounter(){
