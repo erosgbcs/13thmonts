@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Our Love Story</title>
   <style>
+    /* CSS Variables for Light Mode (Default) */
     :root{
       --bg:#fdeef6;
       --env:#ff6b89;
@@ -14,31 +15,94 @@
       --accent:#ff85a2;
       --shadow:0 10px 30px rgba(0,0,0,0.08);
       --light-pink:#ffeff5;
+      --card-bg:#fff;
+      --lightbox-bg:rgba(0,0,0,0.92);
+      --heart-color:#ff85a2;
+      --footer-color:#9e8a8a;
+      --secondary-btn:#a78f97;
+      --secondary-btn-hover:#9a7f88;
+      --gallery-label:rgba(0,0,0,0.7);
+      --time-card-border:#ff85a2;
+      --time-card-bg:#fff9fb;
     }
+    
+    /* CSS Variables for Dark Mode */
+    :root[data-theme="dark"] {
+      --bg:#1a0f1a;
+      --env:#c44569;
+      --env-dark:#a93558;
+      --paper:#2a1a2a;
+      --text:#f0d6e8;
+      --accent:#d87093;
+      --shadow:0 10px 30px rgba(0,0,0,0.3);
+      --light-pink:#2a1a2a;
+      --card-bg:#2a1a2a;
+      --lightbox-bg:rgba(0,0,0,0.95);
+      --heart-color:#d87093;
+      --footer-color:#b8a8b8;
+      --secondary-btn:#6d5d6d;
+      --secondary-btn-hover:#5c4c5c;
+      --gallery-label:rgba(0,0,0,0.8);
+      --time-card-border:#c44569;
+      --time-card-bg:#2a1a2a;
+    }
+    
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x:hidden;}
-    body{background:linear-gradient(180deg,var(--bg) 0%, #fff 100%);overflow:hidden;}
+    body{background:linear-gradient(180deg,var(--bg) 0%, #1a0f1a 100%);overflow:hidden; transition:background 0.5s ease;}
+
+    /* Dark Mode Toggle Button */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--env);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      background: var(--env-dark);
+    }
+    
+    .theme-toggle .moon { display: none; }
+    .theme-toggle .sun { display: block; }
+    
+    :root[data-theme="dark"] .theme-toggle .moon { display: block; }
+    :root[data-theme="dark"] .theme-toggle .sun { display: none; }
 
     /* GENERAL PAGE LAYOUT */
-    .page{display:none;height:100vh;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;animation:fadeIn 1s ease;position:relative;}
+    .page{display:none;height:100vh;width:100%;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;animation:fadeIn 1s ease;position:relative;transition:background 0.5s ease;}
     .page.active{display:flex;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 
     .nav-buttons{margin-top:30px;display:flex;gap:15px;justify-content:center;z-index:2;}
     button{padding:12px 24px;border:none;border-radius:50px;background:var(--env-dark);color:#fff;font-size:16px;cursor:pointer;box-shadow:0 4px 12px rgba(227,79,107,0.3);transition:all 0.3s;z-index:2;font-weight:600;letter-spacing:0.5px;}
     button:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(227,79,107,0.4);}
-    button.secondary{background:#a78f97;}
-    button.secondary:hover{background:#9a7f88;}
+    button.secondary{background:var(--secondary-btn);}
+    button.secondary:hover{background:var(--secondary-btn-hover);}
 
     /* HEADER DECORATION */
     .page-header{position:relative;margin-bottom:25px;}
-    .page-header h1{font-size:32px;color:var(--env-dark);margin:0;position:relative;display:inline-block;}
-    .page-header h1:after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:60px;height:3px;background:var(--accent);border-radius:3px;}
-    .heart-decoration{font-size:24px;color:var(--accent);margin:0 8px;}
+    .page-header h1{font-size:32px;color:var(--env-dark);margin:0;position:relative;display:inline-block;transition:color 0.5s ease;}
+    .page-header h1:after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:60px;height:3px;background:var(--accent);border-radius:3px;transition:background 0.5s ease;}
+    .heart-decoration{font-size:24px;color:var(--accent);margin:0 8px;transition:color 0.5s ease;}
 
     /* FLOATING HEARTS */
     .hearts{position:absolute;inset:0;overflow:hidden;z-index:1;}
-    .heart{position:absolute;bottom:-50px;font-size:24px;color:var(--accent);opacity:0.7;animation:floatUp 6s linear infinite;}
+    .heart{position:absolute;bottom:-50px;font-size:24px;color:var(--heart-color);opacity:0.7;animation:floatUp 6s linear infinite;transition:color 0.5s ease;}
     @keyframes floatUp{
       0%{transform:translateY(0) scale(1) rotate(0deg);opacity:0.7;}
       50%{opacity:1;}
@@ -46,12 +110,12 @@
     }
 
     /* INTRO PAGE */
-    .music-card{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:30px;max-width:380px;text-align:center;animation:float 3s ease-in-out infinite;z-index:2;border:1px solid rgba(255,255,255,0.8);}
+    .music-card{background:var(--card-bg);border-radius:20px;box-shadow:var(--shadow);padding:30px;max-width:380px;text-align:center;animation:float 3s ease-in-out infinite;z-index:2;border:1px solid rgba(255,255,255,0.1);transition:all 0.5s ease;}
     .music-card img{width:100%;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,0.1);transition:transform 0.5s;}
     .music-card:hover img{transform:scale(1.02);}
     .music-info{margin-top:20px;}
-    .music-info h2{margin:0;font-size:26px;color:var(--env-dark);}
-    .music-info p{margin:12px 0;color:#444;font-size:15px;line-height:1.6;}
+    .music-info h2{margin:0;font-size:26px;color:var(--env-dark);transition:color 0.5s ease;}
+    .music-info p{margin:12px 0;color:var(--text);font-size:15px;line-height:1.6;transition:color 0.5s ease;}
     @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0);}}
 
     /* PAGE 1: ENHANCED GALLERY */
@@ -64,26 +128,26 @@
     
     .gallery{display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:20px;justify-content:center;margin-bottom:30px;}
     .gallery-item{position:relative;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);height:220px;cursor:pointer;transition:all 0.4s ease;}
-    .gallery-item:hover{transform:translateY(-8px);box-shadow:0 15px 30px rgba(0,0,0,0.15);}
+    .gallery-item:hover{transform:translateY(-8px);box-shadow:0 15px 30px rgba(0,0,0,0.25);}
     .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
     .gallery-item:hover img{transform:scale(1.08);}
-    .gallery-item .photo-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);color:white;padding:8px;font-size:14px;transform:translateY(100%);transition:transform 0.3s;}
+    .gallery-item .photo-label{position:absolute;bottom:0;left:0;right:0;background:var(--gallery-label);color:white;padding:8px;font-size:14px;transform:translateY(100%);transition:transform 0.3s;}
     .gallery-item:hover .photo-label{transform:translateY(0);}
     
-    .gallery-counter{color:var(--env-dark);font-weight:600;margin-top:10px;font-size:15px;}
+    .gallery-counter{color:var(--env-dark);font-weight:600;margin-top:10px;font-size:15px;transition:color 0.5s ease;}
 
     /* IMPROVED LIGHTBOX */
     .lightbox{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,0.92);
+      background:var(--lightbox-bg);
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
       opacity:0;
       visibility:hidden;
-      transition:opacity 0.5s ease;
+      transition:opacity 0.5s ease, background 0.5s ease;
       z-index:100;
     }
     .lightbox.active{
@@ -150,6 +214,7 @@
       box-shadow:0 20px 40px rgba(0,0,0,.2); /* Enhanced shadow */
       transform:translateZ(-1px);
       overflow:hidden;
+      transition:background 0.5s ease;
     }
     
     .flap{
@@ -162,7 +227,7 @@
       transform-origin:top center;
       transform:rotateX(0deg);
       border-bottom:1px solid rgba(0,0,0,.06);
-      transition:transform 800ms cubic-bezier(.2,.9,.25,1);
+      transition:transform 800ms cubic-bezier(.2,.9,.25,1), background 0.5s ease;
       clip-path:polygon(0 0,100% 0,50% 100%);
     }
     
@@ -205,7 +270,7 @@
       transform:translateY(25px) translateZ(1px);
       box-shadow:0 10px 30px rgba(0,0,0,.12), inset 0 0 10px rgba(0,0,0,0.04);
       opacity:0;
-      transition:transform 800ms cubic-bezier(.2,.9,.25,1),opacity 400ms ease;
+      transition:transform 800ms cubic-bezier(.2,.9,.25,1),opacity 400ms ease, background 0.5s ease;
       pointer-events:none;
       overflow-y:auto;
       max-height:calc(100% - 35px);
@@ -232,27 +297,32 @@
       font-size:26px; /* Bigger font */
       color:var(--env-dark);
       text-align:center;
+      transition:color 0.5s ease;
     }
     
     .letter-date{
       text-align:center;
-      color:#9e6a6a;
+      color:var(--text);
       font-size:16px; /* Slightly bigger */
       margin-bottom:25px; /* More margin */
       font-style:italic;
+      opacity:0.8;
+      transition:color 0.5s ease;
     }
     
     .message p{
       margin:0 0 20px; /* More margin between paragraphs */
       font-size:16px; /* Bigger text */
       line-height:1.7; /* Better line height */
-      color:#5c3a3a;
+      color:var(--text);
       text-align:justify;
+      transition:color 0.5s ease;
     }
     
     .message .highlight{
       color:var(--env-dark);
       font-weight:600;
+      transition:color 0.5s ease;
     }
     
     .letter-signature{
@@ -264,8 +334,9 @@
     
     .letter-signature p{
       margin:5px 0;
-      color:#4b2a2a;
+      color:var(--text);
       font-size:18px; /* Bigger font */
+      transition:color 0.5s ease;
     }
     
     /* LETTER PAGINATION */
@@ -302,15 +373,16 @@
     }
 
     /* TIME PAGE */
-    .time-card{background:#fff9fb;border-radius:20px;padding:35px 25px;box-shadow:var(--shadow);max-width:400px;text-align:center;border:2px solid var(--accent);position:relative;overflow:hidden;}
-    .time-card:before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg, var(--env), var(--accent));}
-    .time-card h1{color:var(--env-dark);font-size:24px;margin:0 0 20px;}
-    .time-card p{margin:12px 0;font-size:17px;font-weight:500;color:#4b2a2a;}
-    .cute-heart{font-size:22px;color:var(--accent);display:inline-block;margin-right:8px;}
-    .counter-display{font-size:18px;background:var(--light-pink);padding:15px;border-radius:12px;margin:20px 0;}
+    .time-card{background:var(--time-card-bg);border-radius:20px;padding:35px 25px;box-shadow:var(--shadow);max-width:400px;text-align:center;border:2px solid var(--time-card-border);position:relative;overflow:hidden;transition:all 0.5s ease;}
+    .time-card:before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg, var(--env), var(--accent));transition:background 0.5s ease;}
+    .time-card h1{color:var(--env-dark);font-size:24px;margin:0 0 20px;transition:color 0.5s ease;}
+    .time-card p{margin:12px 0;font-size:17px;font-weight:500;color:var(--text);transition:color 0.5s ease;}
+    .cute-heart{font-size:22px;color:var(--accent);display:inline-block;margin-right:8px;transition:color 0.5s ease;}
+    .counter-display{font-size:18px;background:var(--light-pink);padding:15px;border-radius:12px;margin:20px 0;transition:background 0.5s ease;}
+    .counter-display p {color:var(--text);}
     
     /* FOOTER NOTE */
-    .footer-note{position:absolute;bottom:20px;color:#9e8a8a;font-size:14px;text-align:center;width:100%;}
+    .footer-note{position:absolute;bottom:20px;color:var(--footer-color);font-size:14px;text-align:center;width:100%;transition:color 0.5s ease;}
     
     /* RESPONSIVE ADJUSTMENTS */
     @media (max-width: 1200px) {
@@ -328,6 +400,14 @@
       .scene {
         width: 380px;
         height: 320px;
+      }
+      
+      .theme-toggle {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
       }
     }
     
@@ -353,10 +433,23 @@
       .letter{padding:20px 18px;}
       .message h1{font-size:22px;}
       .message p{font-size:14px;}
+      .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Dark Mode Toggle Button -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <span class="moon">🌙</span>
+    <span class="sun">☀️</span>
+  </button>
+
   <!-- PAGE 0: INTRO / THEME SONG -->
   <div class="page active" id="intro-page">
     <div class="hearts" id="hearts"></div>
@@ -468,7 +561,7 @@
             </div>
           </div>
         </div>
-        <p style="color:#9e6a6a; margin-top:10px; font-size:14px;">15th Monthsary Letter</p>
+        <p style="color:var(--text); opacity:0.8; margin-top:10px; font-size:14px;">15th Monthsary Letter</p>
       </div>
       
       <!-- ENVELOPE 2: Future Letter -->
@@ -525,11 +618,11 @@
             </div>
           </div>
         </div>
-        <p style="color:#9e6a6a; margin-top:10px; font-size:14px;">Future Dreams Letter</p>
+        <p style="color:var(--text); opacity:0.8; margin-top:10px; font-size:14px;">Future Dreams Letter</p>
       </div>
     </div>
     
-    <p style="color:#9e6a6a; margin-top:10px; max-width:800px; line-height:1.6; padding:0 20px;">
+    <p style="color:var(--text); opacity:0.8; margin-top:10px; max-width:800px; line-height:1.6; padding:0 20px;">
       Click on any envelope to open/close the letter. Use the pagination buttons inside each letter to read multiple pages.
     </p>
     
@@ -574,6 +667,71 @@
   </audio>
 
   <script>
+    // ==================== DARK MODE FUNCTIONALITY ====================
+    
+    // Get theme toggle button
+    const themeToggle = document.getElementById('themeToggle');
+    
+    // Check for saved theme preference or use system preference
+    function getPreferredTheme() {
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme) {
+        return storedTheme;
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
+    // Apply theme
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      
+      if (theme === 'dark') {
+        root.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        root.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    
+    // Toggle theme
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+      
+      // Add transition class for smooth change
+      document.body.classList.add('theme-transition');
+      setTimeout(() => {
+        document.body.classList.remove('theme-transition');
+      }, 500);
+    }
+    
+    // Initialize theme
+    applyTheme(getPreferredTheme());
+    
+    // Add CSS for theme transition
+    const style = document.createElement('style');
+    style.textContent = `
+      .theme-transition * {
+        transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease !important;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Event listener for theme toggle button
+    themeToggle.addEventListener('click', toggleTheme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      // Only apply system theme if no manual preference is set
+      if (!localStorage.getItem('theme')) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    // ==================== EXISTING FUNCTIONALITY ====================
+    
     // Music Player
     const music = document.getElementById('bg-music');
     const playSongBtn = document.getElementById('playSong');
@@ -749,97 +907,100 @@
     setInterval(createHeart,400);
 
     // ENHANCED GALLERY WITH LIGHTBOX
-     // ✅ Separate arrays with proper syntax
-     const memoryData = [
+    const memoryData = [
       { src: "pic1.jpg", title: "Our First Date", date: "The beginning of everything 💖" },
       { src: "pic2.jpg", title: "Laughing Together", date: "Your smile lights up my world ✨" },
       { src: "pic3.jpg", title: "Special Celebration", date: "Celebrating us 🎉" },
       { src: "pic4.jpg", title: "Quiet Moments", date: "Just you and me 🌙" },
       { src: "pic5.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
       { src: "pic6.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" }
-];  // ✅ Closing bracket
+    ];
 
-     const memoryData1 = [  // ✅ Separate array
+    const memoryData1 = [
       { src: "pic7.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
       { src: "pic8.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
       { src: "pic9.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" },
-      { src: "pic10.jpg", title: "Adventures    Together", date: "Exploring life side by side 🗺️" }
-];  // ✅ Closing bracket
+      { src: "pic10.jpg", title: "Adventures Together", date: "Exploring life side by side 🗺️" }
+    ];
     
     // Add this variable at the top with other variables
-let currentGalleryPage = 1;
-const itemsPerPage = 6;
+    let currentGalleryPage = 1;
+    const itemsPerPage = 6;
 
-function initGallery() {
-  const gallery = document.getElementById('memory-gallery');
-  gallery.innerHTML = '';
-  
-  // Determine which images to show based on current page
-  let imagesToShow = [];
-  if (currentGalleryPage === 1) {
-    // Show first 6 images
-    imagesToShow = memoryData.slice(0, itemsPerPage);
-  } else if (currentGalleryPage === 2 && memoryData1) {
-    // Show second page images
-    imagesToShow = memoryData1;
-  }
-  
-  imagesToShow.forEach((item, index) => {
-    const galleryItem = document.createElement('div');
-    galleryItem.className = 'gallery-item';
-    galleryItem.innerHTML = `
-      <img src="${item.src}" alt="${item.title}" data-index="${index}">
-      <div class="photo-label">${item.title}</div>
-    `;
-    gallery.appendChild(galleryItem);
-    
-    // Add click event to each image
-    galleryItem.querySelector('img').addEventListener('click', () => {
-      // Calculate actual index in combined array
-      const actualIndex = (currentGalleryPage === 1) ? index : memoryData.length + index;
-      openLightbox(actualIndex);
-    });
-  });
-  
-  // Update gallery counter text
-  const galleryCounter = document.querySelector('.gallery-counter');
-  const startIndex = (currentGalleryPage === 1) ? 1 : 7;
-  const endIndex = (currentGalleryPage === 1) ? 6 : 10;
-  galleryCounter.textContent = `Memories ${startIndex}-${endIndex} of 10`;
-}
-
-// Update gallery navigation buttons
-document.getElementById('prev-gallery').addEventListener('click', () => {
-  if (currentGalleryPage > 1) {
-    currentGalleryPage--;
-    initGallery();
-  }
-});
-
-document.getElementById('next-gallery').addEventListener('click', () => {
-  if (currentGalleryPage < 2) { // Change 2 to your total number of pages
-    currentGalleryPage++;
-    initGallery();
-  }
-});
+    function initGallery() {
+      const gallery = document.getElementById('memory-gallery');
+      gallery.innerHTML = '';
+      
+      // Determine which images to show based on current page
+      let imagesToShow = [];
+      if (currentGalleryPage === 1) {
+        // Show first 6 images
+        imagesToShow = memoryData.slice(0, itemsPerPage);
+      } else if (currentGalleryPage === 2 && memoryData1) {
+        // Show second page images
+        imagesToShow = memoryData1;
+      }
+      
+      imagesToShow.forEach((item, index) => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.innerHTML = `
+          <img src="${item.src}" alt="${item.title}" data-index="${index}">
+          <div class="photo-label">${item.title}</div>
+        `;
+        gallery.appendChild(galleryItem);
+        
+        // Add click event to each image
+        galleryItem.querySelector('img').addEventListener('click', () => {
+          // Calculate actual index in combined array
+          const actualIndex = (currentGalleryPage === 1) ? index : memoryData.length + index;
+          openLightbox(actualIndex);
+        });
       });
+      
+      // Update gallery counter text
+      const galleryCounter = document.querySelector('.gallery-counter');
+      const startIndex = (currentGalleryPage === 1) ? 1 : 7;
+      const endIndex = (currentGalleryPage === 1) ? 6 : 10;
+      galleryCounter.textContent = `Memories ${startIndex}-${endIndex} of 10`;
     }
+
+    // Update gallery navigation buttons
+    document.getElementById('prev-gallery').addEventListener('click', () => {
+      if (currentGalleryPage > 1) {
+        currentGalleryPage--;
+        initGallery();
+      }
+    });
+
+    document.getElementById('next-gallery').addEventListener('click', () => {
+      if (currentGalleryPage < 2) {
+        currentGalleryPage++;
+        initGallery();
+      }
+    });
     
     // Lightbox functionality
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
     const lightboxTitle = document.getElementById('lightbox-title');
     const lightboxDate = document.getElementById('lightbox-date');
+    let currentImageIndex = 0;
+    
+    // Combine all memory data for lightbox navigation
+    const allMemoryData = [...memoryData, ...memoryData1];
     
     function openLightbox(index) {
       currentImageIndex = index;
-      const item = memoryData[index];
+      const item = allMemoryData[index];
       
-      lightboxImage.src = item.src;
-      lightboxTitle.textContent = item.title;
-      lightboxDate.textContent = item.date;
-      
-      lightbox.classList.add('active');
+      if (item) {
+        lightboxImage.src = item.src;
+        lightboxTitle.textContent = item.title;
+        lightboxDate.textContent = item.date;
+        
+        lightbox.classList.add('active');
+      }
     }
     
     // Lightbox controls
@@ -849,8 +1010,8 @@ document.getElementById('next-gallery').addEventListener('click', () => {
     
     document.getElementById('lightbox-prev').addEventListener('click', (e) => {
       e.stopPropagation();
-      currentImageIndex = (currentImageIndex - 1 + memoryData.length) % memoryData.length;
-      const item = memoryData[currentImageIndex];
+      currentImageIndex = (currentImageIndex - 1 + allMemoryData.length) % allMemoryData.length;
+      const item = allMemoryData[currentImageIndex];
       lightboxImage.src = item.src;
       lightboxTitle.textContent = item.title;
       lightboxDate.textContent = item.date;
@@ -858,8 +1019,8 @@ document.getElementById('next-gallery').addEventListener('click', () => {
     
     document.getElementById('lightbox-next').addEventListener('click', (e) => {
       e.stopPropagation();
-      currentImageIndex = (currentImageIndex + 1) % memoryData.length;
-      const item = memoryData[currentImageIndex];
+      currentImageIndex = (currentImageIndex + 1) % allMemoryData.length;
+      const item = allMemoryData[currentImageIndex];
       lightboxImage.src = item.src;
       lightboxTitle.textContent = item.title;
       lightboxDate.textContent = item.date;
@@ -871,25 +1032,6 @@ document.getElementById('next-gallery').addEventListener('click', () => {
         lightbox.classList.remove('active');
       }
     });
-    
-    // Gallery navigation buttons
-    document.getElementById('prev-gallery').addEventListener('click', () => {
-      const gallery = document.getElementById('memory-gallery');
-      gallery.scrollBy({ left: -300, behavior: 'smooth' });
-    });
-    
-    document.getElementById('next-gallery').addEventListener('click', () => {
-      const gallery = document.getElementById('memory-gallery');
-      gallery.scrollBy({ left: 300, behavior: 'smooth' });
-    });
-    
-    // Initialize gallery on load if we're on the gallery page
-    if (galleryPage.classList.contains('active')) {
-      initGallery();
-    }
-    
-    // Initialize the page
-    initGallery();
     
     // Add keyboard navigation for lightbox
     document.addEventListener('keydown', (e) => {
@@ -903,6 +1045,9 @@ document.getElementById('next-gallery').addEventListener('click', () => {
         document.getElementById('lightbox-next').click();
       }
     });
+    
+    // Initialize the page
+    initGallery();
   </script>
 </body>
 </html>
